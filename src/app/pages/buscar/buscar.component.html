@@ -1,0 +1,70 @@
+<mat-toolbar>Búsqueda de Consulta</mat-toolbar>
+
+<form [formGroup]="form" (ngSubmit)="buscar()">
+    <mat-tab-group #tab>
+        <mat-tab label="Criterio 1">
+
+            <mat-form-field>
+                <input matInput placeholder="DNI" formControlName="dni">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Nombre Completo" formControlName="nombreCompleto">
+            </mat-form-field>
+
+        </mat-tab>
+
+        <mat-tab label="Criterio 2">
+            <mat-form-field appearance="fill">
+                <mat-label>Rango de Fechas</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Inicio" formControlName="fechaConsulta1">
+                    <input matEndDate placeholder="Fin" formControlName="fechaConsulta2">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </mat-tab>
+    </mat-tab-group>
+
+    <button mat-raised-button color="primary" type="submit">Buscar</button>
+
+    <mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="paciente">
+            <mat-header-cell *matHeaderCellDef> Paciente </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.paciente.nombres | uppercase }}
+                {{element.paciente.apellidos | lowercase}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="medico">
+            <mat-header-cell *matHeaderCellDef> Medico </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.medico.apellidos }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="especialidad">
+            <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.especialidad.nombre}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha | date:'dd-MM-yyyy hh:mm:ss a'}}</mat-cell> <!--Tranformamos la fecha con el formato regional-->
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button type="button" mat-raised-button color="primary" (click)="verDetalle(element)">
+                    Ver Detalle</button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+
+</form>

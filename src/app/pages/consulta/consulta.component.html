@@ -1,0 +1,78 @@
+<mat-toolbar>Registro de Consulta </mat-toolbar>
+<div class="example-container">
+  <mat-form-field>
+    <mat-select placeholder="Selecciona algun paciente" [(ngModel)]="idPacienteSeleccionado">
+      <mat-option *ngFor="let p of (pacientes$ | async)" [value]="p.idPaciente"> <!--Iteramos con el ngFor el arreglo y llamamos el observable con el operador async-->
+        {{p.nombres}} {{p.apellidos}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Selecciona algun medico" [(ngModel)]="idMedicoSeleccionado">
+      <mat-option *ngFor="let m of (medicos$ | async)" [value]="m.idMedico"> <!--Iteramos con el ngFor el arreglo y llamamos el observable con el operador async-->
+        {{m.nombres}} {{m.apellidos}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Selecciona especialidad" [(ngModel)]="idEspecialidadSeleccionado">
+    <mat-option *ngFor="let e of (especialidad$ | async)" [value]="e.idEspecialidad"> <!--Iteramos con el ngFor el arreglo y llamamos el observable con el operador async-->
+      {{e.nombre}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Selecciona la fecha</mat-label>
+  <input matInput [matDatepicker]="picker" placeholder="Escoger una fecha dd/mm/yyyy" [(ngModel)]="fechaSeleccionada" [max]="maxFecha">
+  <mat-hint>MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput placeholder="Diagnostico" [(ngModel)]="diagnostico">
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Tratamiento" [(ngModel)]="tratamiento">
+</mat-form-field>
+
+<button mat-raised-button color="primary" (click)="agregar()">Agregar Detalle</button>
+
+  <mat-expansion-panel *ngFor="let d of detalleConsulta; let i=index">  <!--let i=index es una variable que se usa para iterar entre los datos que se agregen en el arreglo-->
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+      {{i + 1}} {{d.diagnostico}} <!--{{i + 1}} es para inicializar los datos en 1 y no en 0-->
+      </mat-panel-title>
+      <mat-panel-description>
+       Ver Tratamiento
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Tratamiento" value="{{d.tratamiento}}"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="warn" (click)="removerDiagnostico(i)">Remover</button>
+  </mat-expansion-panel>
+  <mat-form-field>
+    <mat-select placeholder="Selecciona examen" [(ngModel)]="idExamenSeleccionado"> <!--Almacenamos la id nueva para agregar algun examen-->
+      <mat-option *ngFor="let ex of (examenes$ | async)" [value]="ex.idExamen"> <!--Iteramos con el ngFor el arreglo y llamamos el observable con el operador async-->
+        {{ex.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="agregarExamen()">Agregar Examen</button>
+
+  <mat-list>
+    <mat-list-item role="listitem" *ngFor="let exsec of examenesSeleccionados; let i = index">
+      {{i + 1}} {{exsec.nombre}}
+      <button mat-raised-button color="warn" (click)="removerExamen(i)">Remover</button>
+    </mat-list-item>
+  </mat-list>
+
+<button mat-raised-button color="primary" (click)="aceptar()">Registrar</button>
+
+</div>
+
+

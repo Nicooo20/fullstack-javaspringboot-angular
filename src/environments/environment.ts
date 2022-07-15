@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  HOST: 'http://localhost:8181', //poner localhost deacuerdo a la configuracion del back end
+  TOKEN_AUTH_USERNAME: 'mediapp',
+  TOKEN_AUTH_PASSWORD: 'admin',
+  TOKEN_NAME: 'token',
 };
 
 /*
