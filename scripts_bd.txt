@@ -1,0 +1,83 @@
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('CARLOS', 'ORTEGA', '723023012' , 'carlos@gmail.com', '56991855511');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('ANDRES', 'RIQUELME', '723013021' , 'andreslos@gmail.com', '56991855512');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('ANA', 'GUTIERREZ', '723013033' , 'analos@gmail.com', '56991855513');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('MARIA', 'SOTO', '723013044' , 'mariaos@gmail.com', '56991855514');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('KAREN', 'JORQUERA', '723013055' , 'karenlos@gmail.com', '56991855512');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('LUIS', 'RUIZ', '723013066' , 'luis@gmail.com', '56991855513');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('JOSE', 'HERNANDES', '723013077' , 'joses@gmail.com', '56991855514');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('EDGAR', 'RUIZ', '723013088' , 'edgarlos@gmail.com', '56991855588');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('ROBERTO', 'CASTRO', '723013099' , 'roberto@gmail.com', '56991855522');
+INSERT INTO paciente(nombres, apellidos, dni, email, telefono) VALUES('MIA', 'FERNANDEZ', '723013100' , 'mias@gmail.com', '56991855566');
+
+
+
+INSERT INTO usuario(id_usuario, nombre, clave, estado) values (1, 'admin@gmail.com', '$2a$10$ju20i95JTDkRa7Sua63JWOChSBc0MNFtG/6Sps2ahFFqN.HCCUMW.', '1');
+INSERT INTO usuario(id_usuario, nombre, clave, estado) values (2, 'user@gmail.com', '$2a$10$ju20i95JTDkRa7Sua63JWOChSBc0MNFtG/6Sps2ahFFqN.HCCUMW.', '1');
+
+INSERT INTO Rol (id_rol, nombre, descripcion) VALUES (1, 'ADMIN', 'Administrador');
+INSERT INTO Rol (id_rol, nombre, descripcion) VALUES (2, 'USER', 'Usuario');
+INSERT INTO Rol (id_rol, nombre, descripcion) VALUES (3, 'DBA', 'Admin de bd');
+
+INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (1, 1);
+INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (1, 3);
+INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (2, 2);
+
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (1, 'Inicio', 'home', '/pages/inicio');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (2, 'Buscar', 'search', '/pages/buscar');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (3, 'Registrar', 'insert_drive_file', '/pages/consulta');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (4, 'Registrar E.', 'insert_drive_file', '/pages/consulta-especial');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (5, 'Registrar W.', 'view_carousel', '/pages/consulta-wizard');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (6, 'Especialiades', 'star_rate', '/pages/especialidad');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (7, 'Médicos', 'healing', '/pages/medico');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (8, 'Examenes', 'assignment', '/pages/examen');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (9, 'Pacientes', 'accessibility', '/pages/paciente');
+INSERT INTO menu(id_menu, nombre, icono, url) VALUES (10, 'Reportes', 'assessment', '/pages/reporte');
+
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (1, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (2, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (3, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (4, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (5, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (6, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (7, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (8, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (9, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (10, 1);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (1, 2);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (3, 2);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (4, 2);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (5, 2);
+INSERT INTO menu_rol (id_menu, id_rol) VALUES (6, 2);
+
+
+CREATE OR REPLACE FUNCTION fn_listarResumen () 
+ RETURNS TABLE (
+ cantidad INT,
+ fecha TEXT
+) 
+AS $$
+DECLARE 
+    var_r record;
+BEGIN
+FOR var_r IN(
+	select (count(*)::int) as cantidad, to_char(c.fecha, 'dd/MM/yyyy') as fecha from consulta c 
+	group by to_char(c.fecha, 'dd/MM/yyyy') order by to_char(c.fecha, 'dd/MM/yyyy') asc 
+	)  
+ LOOP
+        cantidad := var_r.cantidad; 
+ 		fecha := var_r.fecha;
+        RETURN NEXT;
+ END LOOP;
+END; $$ 
+LANGUAGE 'plpgsql';
+
+
+create table oauth_access_token (
+  token_id VARCHAR(256),
+  token bytea,
+  authentication_id VARCHAR(256),
+  user_name VARCHAR(256),
+  client_id VARCHAR(256),
+  authentication bytea,
+  refresh_token VARCHAR(256)
+);
