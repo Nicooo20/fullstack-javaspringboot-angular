@@ -2,8 +2,10 @@
 
 #Descripción
 Este proyecto fue creado gracias a un curso de mitocode, donde se explican las principales funcionalidades en la parte del front y back end.
-Herramientas principales Utilizadas AngularCLI v13, TypeScript, Angular Material , JavaSpringboot, JPA, JWT, REST.
+Herramientas principales Utilizadas AngularCLI v13, TypeScript, Angular Material , JavaSpringboot, JPA, JWT, REST y PostgreSQL.
 Para más información contactame directamente por email, respondere a la brevedad. (nicolas.techdev@gmail.com).
+Verificar enviroment, para el uso de los token y la conexion a la base de datos.
+En el back-end verificar ->src/main/resources -> application.properties para editar base de datos
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.4.
